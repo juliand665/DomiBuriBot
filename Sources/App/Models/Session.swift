@@ -29,7 +29,9 @@ final class Session {
 			validate()
 		}
 		
-		if let solved = solvedRiddles.first(where: { $0.accepts(guess) }) {
+		if hasSolvedEverything {
+			return .alreadySolvedEverything
+		} else if let solved = solvedRiddles.first(where: { $0.accepts(guess) }) {
 			return .alreadySolved(solved)
 		} else if let solved = Riddle.all.first(where: { $0.accepts(guess) }) {
 			solvedRiddles.insert(solved)
@@ -51,6 +53,7 @@ final class Session {
 	}
 	
 	enum GuessResult {
+		case alreadySolvedEverything
 		case alreadySolved(Riddle)
 		case guessCorrect(Riddle)
 		case alreadyTried
