@@ -6,16 +6,16 @@ private let decoder = JSONDecoder() <- {
 }
 
 final class BuriBotController {
-	var highestUpdateHandled = 0
+	var highestUpdateHandled = ID<Update>(0)
 	
 	func update(request: Request) throws -> Future<HTTPStatus> {
 		try request.content
-			.decode(json: Telegram.Update.self, using: decoder)
+			.decode(json: Update.self, using: decoder)
 			.map { try self.handle($0, request: request) }
 			.transform(to: .ok)
 	}
 	
-	private func handle(_ update: Telegram.Update, request: Request) throws -> Future<HTTPStatus> {
+	private func handle(_ update: Update, request: Request) throws -> Future<HTTPStatus> {
 		guard update.id > highestUpdateHandled else { throw Abort(.badRequest) }
 		highestUpdateHandled = update.id
 		

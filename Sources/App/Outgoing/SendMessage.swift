@@ -1,13 +1,13 @@
 import Vapor
 
 struct SendableMessage: Codable {
-	var chatID: Int // could also be string but fuck union types amirite
+	var chatID: ID<Chat> // could also be string but fuck union types amirite
 	var text: String
 	
 	var parseMode: ParseMode?
 	var disableWebPagePreview: Bool?
 	var disableNotification: Bool?
-	var replyToMessageID: Int?
+	var replyToMessageID: ID<Message>?
 	// replyMarkup is a thing too
 	
 	enum CodingKeys: String, CodingKey {
@@ -32,7 +32,7 @@ extension Client {
 		}
 	}
 	
-	func sendMarkdownMessage(_ message: String, in chat: Telegram.Chat) throws -> Future<Response> {
+	func sendMarkdownMessage(_ message: String, in chat: Chat) throws -> Future<Response> {
 		try sendMessage(SendableMessage(chatID: chat.id, text: message, parseMode: .markdown))
 	}
 }
