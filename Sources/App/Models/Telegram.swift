@@ -63,14 +63,14 @@ struct Chat: APIObject {
 	}
 }
 
-struct Sticker: APIObject {
-	var id: ID<Sticker>
+struct Sticker: Codable {
+	var fileID: String
 	
 	var emoji: String
 	var setName: String
 	
 	enum CodingKeys: String, CodingKey {
-		case id = "file_id"
+		case fileID = "file_id"
 		
 		case emoji
 		case setName = "set_name"
