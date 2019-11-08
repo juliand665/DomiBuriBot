@@ -7,7 +7,7 @@ struct Riddle {
 		Riddle(name: "voice message", answer: "beatles"),
 		Riddle(name: "me and the boys", answer: "electro"),
 		Riddle(name: "sticker pack", answer: "twitter"),
-		Riddle(name: "morse diacritics", answer: "braille"),
+		Riddle(name: "morse diacritics", answer: "umulig"),
 		Riddle(name: "emoji movie title", answer: "interstellar"),
 		Riddle(name: "location building", answer: "cab"),
 		Riddle(name: "weird word", answer: "autobus"),
