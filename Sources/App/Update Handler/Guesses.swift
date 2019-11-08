@@ -1,6 +1,6 @@
 import Foundation
 
-private let fileID = ProcessInfo.processInfo.environment["fileID"]!
+private let fileIDs = ProcessInfo.processInfo.environment["fileIDs"]!.components(separatedBy: "|")
 
 extension UpdateHandler {
 	func handleGuess(_ guess: String) throws -> Result {
@@ -37,7 +37,7 @@ extension UpdateHandler {
 						You know what that means! It's time for your real gift…
 						"""
 					).flatMap { response in
-						try self.sendFile(id: fileID)
+						.reduce(.ok, try fileIDs.map(self.sendFile(id:)), eventLoop: self.request.eventLoop) { old, new in old }
 					}
 				} else {
 					return self.ok()
