@@ -4,10 +4,10 @@ import Foundation
 
 struct Update: APIObject {
 	/// The update‘s unique identifier. Update identifiers start from a certain positive number and increase sequentially. This ID becomes especially handy if you’re using Webhooks, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.
-	var id: ID<Update>
+	let id: ID<Update>
 	
-	var message: Message?
-	var editedMessage: Message?
+	let message: Message?
+	let editedMessage: Message?
 	// there's a bunch more but i don't need them rn: https://core.telegram.org/bots/api#update
 	
 	enum CodingKeys: String, CodingKey {
@@ -24,30 +24,32 @@ struct Update: APIObject {
 }
 
 struct Message: APIObject {
-	var id: ID<Message>
-	var date: Date // unix timestamp
-	var chat: Chat
+	let id: ID<Message>
+	let date: Date // unix timestamp
+	let chat: Chat
 	
-	var text: String?
-	var sticker: Sticker?
+	let sender: User?
+	let text: String?
+	let sticker: Sticker?
 	
 	enum CodingKeys: String, CodingKey {
 		case id = "message_id"
 		case date
 		case chat
 		
+		case sender = "from"
 		case text
 		case sticker
 	}
 }
 
 struct Chat: APIObject {
-	var id: ID<Chat>
-	var type: Kind
+	let id: ID<Chat>
+	let type: Kind
 	
-	var username: String?
-	var firstName: String?
-	var lastName: String?
+	let username: String?
+	let firstName: String?
+	let lastName: String?
 	
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -64,15 +66,31 @@ struct Chat: APIObject {
 }
 
 struct Sticker: Codable {
-	var fileID: String
+	let fileID: String
 	
-	var emoji: String
-	var setName: String
+	let emoji: String
+	let setName: String
 	
 	enum CodingKeys: String, CodingKey {
 		case fileID = "file_id"
 		
 		case emoji
 		case setName = "set_name"
+	}
+}
+
+struct User: APIObject {
+	let id: ID<User>
+	
+	var username: String?
+	var firstName: String?
+	var lastName: String?
+	
+	enum CodingKeys: String, CodingKey {
+		case id
+		
+		case username
+		case firstName = "first_name"
+		case lastName = "last_name"
 	}
 }

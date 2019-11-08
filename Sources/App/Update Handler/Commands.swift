@@ -2,7 +2,11 @@ import Foundation
 
 extension UpdateHandler {
 	func handleCommand(_ command: String) throws -> Result {
-		switch command {
+		let parts = command.components(separatedBy: " ")
+		let name = parts.first!
+		let args = parts.dropFirst()
+		
+		switch name {
 		case "/start":
 			if session.guessesMade.isEmpty {
 				return try sendMarkdownMessage(
@@ -73,6 +77,23 @@ extension UpdateHandler {
 				You had better not be using this to cheat! All riddles except the i one have been solved for you.
 				"""
 			)
+		case "/subscribe" where message.sender?.isAdmin == true:
+			let target = args.first
+			subscription = Subscription(chat: chat, username: target)
+			
+			return try sendMarkdownMessage(
+				"""
+				Subscribed to updates from \(target ?? "everyone")!
+				"""
+			)
+		case "/unsubscribe" where message.sender?.isAdmin == true:
+			subscription = nil
+			
+			return try sendMarkdownMessage(
+				"""
+				Unsubscribed from updates!
+				"""
+			)
 		default:
 			print("unknown command: \"\(command)\"")
 			
@@ -82,5 +103,11 @@ extension UpdateHandler {
 				"""
 			)
 		}
+	}
+}
+
+private extension User {
+	var isAdmin: Bool {
+		username == "juliand665"
 	}
 }
