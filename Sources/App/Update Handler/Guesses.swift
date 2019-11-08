@@ -1,6 +1,6 @@
 import Foundation
 
-private let fileIDs = ProcessInfo.processInfo.environment["fileIDs"]!.components(separatedBy: "|")
+private let fileIDs = ProcessInfo.processInfo.environment["fileIDs"]!.components(separatedBy: ":")
 
 extension UpdateHandler {
 	func handleGuess(_ guess: String) throws -> Result {
