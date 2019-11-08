@@ -1,5 +1,7 @@
 import Foundation
 
+private let fileID = ProcessInfo.processInfo.environment["fileID"]!
+
 extension UpdateHandler {
 	func handleGuess(_ guess: String) throws -> Result {
 		switch session.makeGuess(guess) {
@@ -35,7 +37,7 @@ extension UpdateHandler {
 						You know what that means! It's time for your real gift…
 						"""
 					).flatMap { response in
-						try self.sendFile(id: "BQADBAADdwUAAv6bIVKL9hSF6Cn-9hYE")
+						try self.sendFile(id: fileID)
 					}
 				} else {
 					return self.ok()
