@@ -50,10 +50,11 @@ extension UpdateHandler {
 				)
 			}
 		case "/clear":
+			let clearedRiddles = session.solvedRiddles.count
 			session.clear()
 			return try sendMarkdownMessage(
 				"""
-				🗑 Cleared \(session.solvedRiddles.count) solved riddles.
+				🗑 Cleared \(clearedRiddles) solved riddles.
 				"""
 			)
 		case "/guesses":
